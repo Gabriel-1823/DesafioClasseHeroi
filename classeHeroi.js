@@ -1,16 +1,16 @@
-class heroi {
+class Heroi {
     constructor(nome, idade, classe) {
         this.nome = nome
         this.idade = idade
         this.classe = classe
         this.status = {
-            vida : 100,
-            estamina : 100,
-            magia : 100,
-            força : 10
+            vida: 100,
+            estamina: 100,
+            magia: 100,
+            força: 10
         }
 
-        switch(classe){
+        switch (classe) {
 
             case 'guerreiro':
                 this.ataque_tipo = 'espada'
@@ -25,7 +25,7 @@ class heroi {
                 this.status.vida = 140
                 this.status.estamina = 120
                 this.status.magia = 450
-                this.status.força = this.status.magia/10
+                this.status.força = this.status.magia / 10
                 break
 
             case 'monge':
@@ -33,7 +33,7 @@ class heroi {
                 this.status.vida = 280
                 this.status.estamina = 200
                 this.status.magia = 150
-                this.status.força =this.status.vida/10
+                this.status.força = this.status.vida / 10
                 break
 
             case 'ninja':
@@ -55,18 +55,21 @@ class heroi {
     }
 
     Atacar(alvo) {
+        if (alvo.status.vida >0 ){
         console.log(`${alvo.nome} possui ${alvo.status.vida} pontos de vida`)
         console.log(`O herói ${this.nome} da classe ${this.classe} atacou ${alvo.nome} usando ${this.ataque_tipo}`)
         alvo.status.vida -= this.status.força
-        console.log(`${alvo.nome} agora esta com ${alvo.status.vida} pontos de vida \n`)
-    }   
+        console.log(`${alvo.nome} agora esta com ${alvo.status.vida} pontos de vida \n`)}
+        
+        else {console.log(`O herói ${alvo} esta inconsciente`)}
+    }
 }
 
-Oliver = new heroi('Oliver', 47, 'ladino')
-Marcus = new heroi('Marcus', 35, 'guerreiro')
-Farengard = new heroi('Farengard', 77,'mago')
-Lee = new heroi('Lee', 33, 'ninja')
-Ping = new heroi('Ping', 48, 'monge')
+const Oliver = new Heroi('Oliver', 47, 'ladino')
+Marcus = new Heroi('Marcus', 35, 'guerreiro')
+Farengard = new Heroi('Farengard', 77, 'mago')
+Lee = new Heroi('Lee', 33, 'ninja')
+Ping = new Heroi('Ping', 48, 'monge')
 
 Oliver.Atacar(Farengard)
 Marcus.Atacar(Ping)

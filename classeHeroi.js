@@ -2,7 +2,7 @@ class Heroi {
     constructor(nome, idade, classe) {
         this.nome = nome
         this.idade = idade
-        this.classe = classe || 'camponês'
+        this.classe = classe || 'Camponês'
         this.ataque_tipo = 'soco'
         this.status = {
             vida: 100,
@@ -13,80 +13,107 @@ class Heroi {
 
         switch (classe) {
 
-            case 'guerreiro':
+            case 'Guerreiro':
                 this.ataque_tipo = 'espada'
-                this.status.vida = 350
-                this.status.estamina = 130
-                this.status.magia = 80
-                this.status.força = this.status.vida / 10
+                this.status.vida = 350 + this.idade
+                this.status.estamina = 130 + this.idade
+                this.status.magia = 80 + this.idade
+                this.status.força = Math.round(this.status.vida / 10)
                 break
 
-            case 'mago':
+            case 'Mago':
                 this.ataque_tipo = 'magia'
-                this.status.vida = 140
-                this.status.estamina = 120
-                this.status.magia = 450
-                this.status.força = this.status.magia / 10
+                this.status.vida = 140 + this.idade
+                this.status.estamina = 120 + this.idade
+                this.status.magia = 450 + this.idade
+                this.status.força = Math.round(this.status.vida / 10)
                 break
 
-            case 'monge':
+            case 'Monge':
                 this.ataque_tipo = 'artes marciais'
-                this.status.vida = 280
-                this.status.estamina = 200
-                this.status.magia = 180
-                this.status.força = this.status.vida / 10
+                this.status.vida = 260 + this.idade
+                this.status.estamina = 150 + this.idade
+                this.status.magia = 180 + this.idade
+                this.status.força = Math.round(this.status.vida / 10)
                 break
 
-            case 'ninja':
+            case 'Ninja':
                 this.ataque_tipo = 'shuriken'
-                this.status.vida = 180
-                this.status.estamina = 240
-                this.status.magia = 190
-                this.status.força = this.status.vida / 10
+                this.status.vida = 180 + this.idade
+                this.status.estamina = 240 + this.idade
+                this.status.magia = 190 + this.idade
+                this.status.força = Math.round(this.status.vida / 10)
                 break
 
-            case 'ladino':
+            case 'Ladino':
                 this.ataque_tipo = 'adaga'
-                this.status.vida = 200
-                this.status.estamina = 270
-                this.status.magia = 140
-                this.status.força = this.status.vida / 10
+                this.status.vida = 200 + this.idade
+                this.status.estamina = 270 + this.idade
+                this.status.magia = 140 + this.idade
+                this.status.força = Math.round(this.status.vida / 10)
                 break
 
         }
     }
 
-    Atacar(alvo) {
+    Atacar(alvo, furtividade = undefined) {
 
         if (alvo) {
             if (alvo.status.vida > 0) {
                 console.log(`${alvo.nome} possui ${alvo.status.vida} pontos de vida`)
-                console.log(`O herói ${this.nome} da classe ${this.classe} atacou ${alvo.nome} usando ${this.ataque_tipo}`)
-                alvo.status.vida -= this.status.força
-                console.log(`${alvo.nome} agora esta com ${alvo.status.vida} pontos de vida \n`)
+
+                switch (furtividade) {
+
+                    case true:
+                        console.log(`O herói ${this.nome} da classe ${this.classe} atacou de modo furtivo ${alvo.nome} usando ${this.ataque_tipo}`)
+                        alvo.status.vida -= Math.round(this.status.força + this.status.estamina / 10)
+                        console.log(`${alvo.nome} agora esta com ${alvo.status.vida} pontos de vida \n`)
+                        break
+
+                    case false || undefined:
+                        console.log(`O herói ${this.nome} da classe ${this.classe} atacou ${alvo.nome} usando ${this.ataque_tipo}`)
+                        alvo.status.vida -= this.status.força
+                        console.log(`${alvo.nome} agora esta com ${alvo.status.vida} pontos de vida \n`)
+                        break
+                }
             }
 
-            else { console.log(`O herói ${alvo} esta inconsciente`) }
+            else { console.log(`O alvo ${alvo.nome} esta inconsciente \n`) }
         }
 
         else {
-            console.log(`O "heroi" ${this.nome} atacou a si mesmo usando ${this.ataque_tipo}`)
-            this.status.vida -= this.status.força
-            console.log(`${this.nome} agora esta com ${this.status.vida} pontos de vida \n`)
+            if (this.status.vida > 0) {
+                console.log(`O "heroi" ${this.nome} atacou a si mesmo usando ${this.ataque_tipo}`)
+                this.status.vida -= this.status.força
+                console.log(`${this.nome} agora esta com ${this.status.vida} pontos de vida \n`)
+            }
+            else { console.log(`O "heroi" ${this.nome} esta inconsciente\n`) }
         }
     }
 }
 
-const Oliver = new Heroi('Oliver', 47, 'ladino')
-const Marcus = new Heroi('Marcus', 35, 'guerreiro')
-const Farengard = new Heroi('Farengard', 77, 'mago')
-const Lee = new Heroi('Lee', 33, 'ninja')
-const Ping = new Heroi('Ping', 48, 'monge')
+const Oliver = new Heroi('Oliver', 47, 'Ladino')
+const Marcus = new Heroi('Marcus', 35, 'Guerreiro')
+const Farengard = new Heroi('Farengard', 77, 'Mago')
+const Lee = new Heroi('Lee', 33, 'Ninja')
+const Ping = new Heroi('Ping', 48, 'Monge')
 const Jeffrey = new Heroi('Jeffrey', 25)
 
-Oliver.Atacar(Farengard)
+Oliver.Atacar(Farengard, true)
 Marcus.Atacar(Ping)
 Farengard.Atacar(Oliver)
-Lee.Atacar(Marcus)
+Lee.Atacar(Marcus, true)
 Ping.Atacar(Lee)
 Jeffrey.Atacar()
+
+for (let x = 0; x < 10; x++) {
+    Jeffrey.Atacar()
+}
+
+for (let x = 0; x < 7; x++) {
+    Marcus.Atacar(Oliver)
+}
+
+for (let x = 0; x < 9; x++) {
+    Farengard.Atacar()
+}
